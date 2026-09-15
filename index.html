@@ -658,6 +658,21 @@ nav .nav-toggle {
   z-index: 101;
 }
 
+/* NAV OVERLAY */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s, visibility 0.4s;
+  z-index: 99;
+}
+.nav-overlay.open {
+  opacity: 0.7;
+  visibility: visible;
+}
+
 @media (max-width: 768px) {
   nav { padding: 16px 24px; }
   nav .nav-links {
@@ -677,16 +692,6 @@ nav .nav-toggle {
   nav .nav-links.open { right: 0; }
   nav .nav-links a { font-size: 18px; opacity: 0.8; }
   nav .nav-toggle { display: block; }
-  .nav-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s, visibility 0.4s;
-    z-index: 99;
-  }
-  .nav-overlay.open { opacity: 1; visibility: visible; }
   section { padding: 64px 20px; }
   .hero { padding: 0 20px; }
   .hero-title { letter-spacing: -1px; }
@@ -711,7 +716,6 @@ nav .nav-toggle {
 <nav>
   <div class="logo">IS</div>
   <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
-  <div class="nav-overlay" id="navOverlay"></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -719,6 +723,7 @@ nav .nav-toggle {
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
+<div class="nav-overlay" id="navOverlay"></div>
 
 <section class="hero">
   <h1 class="hero-title" id="heroTitle">
