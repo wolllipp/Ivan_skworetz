@@ -1027,16 +1027,20 @@ navLinks.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', closeMenu);
 });
 
-// Smooth parallax on scroll for hero
+// Fade out hero on scroll
 let ticking = false;
 window.addEventListener('scroll', () => {
   if (!ticking) {
     requestAnimationFrame(() => {
       const scrollY = window.scrollY;
       const hero = document.querySelector('.hero-title');
+      const heroSubtitle = document.querySelector('.hero-subtitle');
+      const heroLinks = document.querySelector('.hero-links');
       if (hero && scrollY < window.innerHeight) {
-        hero.style.transform = `translateY(${scrollY * 0.3}px)`;
-        hero.style.opacity = 1 - scrollY / window.innerHeight;
+        const progress = scrollY / window.innerHeight;
+        hero.style.opacity = 1 - progress * 1.5;
+        if (heroSubtitle) heroSubtitle.style.opacity = 1 - progress * 1.5;
+        if (heroLinks) heroLinks.style.opacity = 1 - progress * 1.5;
       }
       ticking = false;
     });
