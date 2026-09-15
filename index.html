@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan Skworetz — Java Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --text: #f0f0f0;
+  --text-dim: #666;
+  --accent: #c0c0c0;
+  --border: #1a1a1a;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: difference;
+}
+
+nav .logo {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+nav .nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+nav .nav-links a:hover {
+  opacity: 1;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 48px;
+  position: relative;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 7.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -3px;
+}
+
+.hero-title .line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-title .line .char {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: charReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-subtitle {
+  margin-top: 32px;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  opacity: 0;
+  animation: fadeUp 1s 1.4s forwards;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 48px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0;
+  animation: fadeUp 1s 1.8s forwards;
+}
+
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: var(--text-dim);
+  margin-top: 8px;
+  animation: scrollLine 2s infinite;
+}
+
+@keyframes charReveal {
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollLine {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* SECTIONS */
+section {
+  padding: 120px 48px;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+}
+
+/* ABOUT */
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.about-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(0.3);
+  transition: filter 0.6s;
+}
+
+.about-image:hover img {
+  filter: grayscale(0);
+}
+
+.about-text h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin-bottom: 32px;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--accent);
+  font-weight: 300;
+  max-width: 500px;
+}
+
+/* REVEAL TEXT ANIMATION */
+.reveal-text {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-text .line-flow {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal-text .line-flow .word {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s;
+}
+
+.reveal-text.visible .line-flow .word {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* SKILLS */
+.skills {
+  border-top: 1px solid var(--border);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 64px;
+}
+
+.skill-group h3 {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-group ul {
+  list-style: none;
+}
+
+.skill-group ul li {
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 8px 0;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.skill-group ul li.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* PROJECTS */
+.projects {
+  border-top: 1px solid var(--border);
+}
+
+.project {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-info h3 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.project-meta {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+.project-meta span {
+  margin-right: 16px;
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--accent);
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.project-stack span {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-dim);
+}
+
+.project-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.5);
+  transition: filter 0.6s, transform 0.6s;
+}
+
+.project-image:hover img {
+  filter: grayscale(0);
+  transform: scale(1.03);
+}
+
+/* PHOTO GRID */
+.photo-section {
+  border-top: 1px solid var(--border);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.photo-grid .photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.photo-grid .photo.wide {
+  grid-column: span 2;
+  aspect-ratio: 16/9;
+}
+
+.photo-grid .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.4);
+  transition: filter 0.6s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.photo-grid .photo:hover img {
+  filter: grayscale(0);
+  transform: scale(1.05);
+}
+
+/* CONTACT */
+.contact {
+  border-top: 1px solid var(--border);
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 48px;
+}
+
+.contact h2 a {
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+}
+
+.contact h2 a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--text);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact h2 a:hover::after {
+  width: 100%;
+}
+
+.contact-links {
+  display: flex;
+  gap: 40px;
+}
+
+.contact-links a {
+  font-size: 14px;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.contact-links a:hover {
+  color: var(--text);
+}
+
+/* FOOTER */
+footer {
+  padding: 24px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* MARQUEE TEXT */
+.marquee-section {
+  padding: 80px 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.marquee {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+
+.marquee span {
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -3px;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  padding: 0 40px;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* PROJECT SCREENSHOT COLLAGE — center text layout */
+.project-showcase {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-showcase .section-label {
+  margin-bottom: 12px;
+}
+
+.project-showcase h3 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -1.5px;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.project-showcase .project-meta {
+  margin-bottom: 0;
+}
+
+.project-collage {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 12px;
+  margin-top: 48px;
+  align-items: center;
+}
+
+.project-collage .collage-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;
+}
+
+.project-collage .collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-collage .collage-item:hover img {
+  transform: scale(1.04);
+}
+
+.collage-left, .collage-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.collage-center {
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.collage-center .project-desc {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--accent);
+  font-weight: 300;
+  margin-bottom: 28px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.collage-center .project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.collage-center .project-stack span {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-dim);
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.collage-center .project-stack span:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+.collage-left .collage-item:nth-child(1) {
+  aspect-ratio: 4/5;
+}
+
+.collage-left .collage-item:nth-child(2) {
+  aspect-ratio: 16/10;
+}
+
+.collage-right .collage-item:nth-child(1) {
+  aspect-ratio: 16/10;
+}
+
+.collage-right .collage-item:nth-child(2) {
+  aspect-ratio: 4/5;
+}
+
+/* HORIZONTAL LINE REVEAL */
+.line-reveal {
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.line-reveal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: var(--text-dim);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.line-reveal.visible::after {
+  width: 100%;
+}
+
+/* RESPONSIVE */
+nav .nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 101;
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  nav .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: var(--bg);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    border-left: 1px solid var(--border);
+  }
+  nav .nav-links.open { right: 0; }
+  nav .nav-links a { font-size: 18px; opacity: 0.8; }
+  nav .nav-toggle { display: block; }
+  section { padding: 64px 20px; }
+  .hero { padding: 0 20px; }
+  .hero-title { letter-spacing: -1px; }
+  .about { grid-template-columns: 1fr; gap: 40px; }
+  .about-text h2 { font-size: 1.8rem; }
+  .skills-grid { grid-template-columns: 1fr; gap: 32px; }
+  .project { padding: 48px 0; }
+  .project-info h3 { font-size: 1.5rem; }
+  .project-stack { gap: 6px; }
+  .project-stack span { font-size: 10px; padding: 5px 10px; }
+  .photo-grid { grid-template-columns: 1fr; gap: 12px; }
+  .photo-grid .photo.wide { grid-column: span 1; }
+  .contact h2 { font-size: 2rem; letter-spacing: -1px; }
+  .contact-links { flex-direction: column; gap: 16px; }
+  footer { padding: 16px 20px; flex-direction: column; gap: 8px; }
+  .marquee span { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">IS</div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1 class="hero-title" id="heroTitle">
+    <span class="line"><span class="char" style="animation-delay: 0.1s">I</span><span class="char" style="animation-delay: 0.15s">v</span><span class="char" style="animation-delay: 0.2s">a</span><span class="char" style="animation-delay: 0.25s">n</span></span>
+    <span class="line"><span class="char" style="animation-delay: 0.35s">S</span><span class="char" style="animation-delay: 0.4s">k</span><span class="char" style="animation-delay: 0.45s">w</span><span class="char" style="animation-delay: 0.5s">o</span><span class="char" style="animation-delay: 0.55s">r</span><span class="char" style="animation-delay: 0.6s">e</span><span class="char" style="animation-delay: 0.65s">t</span><span class="char" style="animation-delay: 0.7s">z</span></span>
+  </h1>
+  <p class="hero-subtitle">Java Developer — Backend Systems &amp; REST APIs</p>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<section class="marquee-section">
+  <div class="marquee">
+    <span>Java</span>
+    <span>Spring Boot</span>
+    <span>PostgreSQL</span>
+    <span>Docker</span>
+    <span>REST API</span>
+    <span>Java</span>
+    <span>Spring Boot</span>
+    <span>PostgreSQL</span>
+    <span>Docker</span>
+    <span>REST API</span>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-image reveal-text">
+    <img src="B901794A-DCCC-41EA-A7A0-778C50FC46D5_1_105_c.jpeg" alt="Ivan Skworetz" loading="lazy">
+  </div>
+  <div class="about-text">
+    <div class="section-label reveal-text">About</div>
+    <h2 class="reveal-text">Backend developer with 2+ years of commercial experience</h2>
+    <p class="reverse-flow-text">
+      Specializing in Spring Boot, fault-tolerant REST API design, and relational databases under high concurrency.
+      Built integrations through reverse-engineering undocumented protocols.
+      Focused on reliability and maintainability in production.
+    </p>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="section-label reveal-text">Expertise</div>
+  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Technical Stack</h2>
+  <p class="reveal-text" style="color: var(--text-dim); font-weight: 300; max-width: 500px; margin-bottom: 32px;">Technologies and tools I work with daily to build reliable systems.</p>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h3>Backend</h3>
+      <ul>
+        <li>Java</li>
+        <li>Spring Boot</li>
+        <li>Spring Security</li>
+        <li>Spring Data JPA</li>
+        <li>Hibernate</li>
+        <li>JWT</li>
+        <li>SOLID / OOP</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h3>Databases</h3>
+      <ul>
+        <li>PostgreSQL</li>
+        <li>MySQL</li>
+        <li>Redis</li>
+        <li>MongoDB</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h3>DevOps</h3>
+      <ul>
+        <li>Docker</li>
+        <li>Docker Compose</li>
+        <li>CI/CD (GitHub Actions)</li>
+        <li>Flyway / Liquibase</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h3>Frontend</h3>
+      <ul>
+        <li>HTML / CSS</li>
+        <li>JavaScript (ES6+)</li>
+        <li>SvelteKit</li>
+        <li>Sass / Figma</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h3>Tools</h3>
+      <ul>
+        <li>Git / GitHub</li>
+        <li>Maven</li>
+        <li>IntelliJ IDEA</li>
+        <li>REST API</li>
+        <li>JUnit 5 / Mockito</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h3>Languages</h3>
+      <ul>
+        <li>English (B2+)</li>
+        <li>Russian — Native</li>
+        <li>Belarusian — Native</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="line-reveal"></div>
+
+<section class="projects" id="projects">
+  <div class="section-label reveal-text">Experience</div>
+  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Selected Projects</h2>
+  <p class="reveal-text" style="color: var(--text-dim); font-weight: 300; max-width: 500px; margin-bottom: 32px;">Commercial and personal projects showcasing backend expertise.</p>
+
+  <div class="project reveal-text">
+    <div class="project-info">
+      <h3>SaaS Platform for Workflow Automation</h3>
+      <div class="project-meta">
+        <span>09/2025 — 05/2026</span>
+        <span>Backend Developer</span>
+      </div>
+      <p class="project-desc">
+        SaaS platform digitizing approval workflows — a lightweight CRM/BPM system.
+        Designed and implemented RBAC for three user groups with granular permissions.
+        Built a flexible document workflow engine with multi-stage approval, rejection, and archiving.
+        Integrated Telegram Bot API for real-time notifications, reducing staff reaction time by 40%.
+        Deployed and maintained in production.
+      </p>
+      <div class="project-stack">
+        <span>Java</span>
+        <span>Spring Boot</span>
+        <span>Spring Security</span>
+        <span>PostgreSQL</span>
+        <span>Docker</span>
+        <span>REST API</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="project reveal-text">
+    <div class="project-info">
+      <h3>Order Management for Boutique Atelier</h3>
+      <div class="project-meta">
+        <span>10/2024 — 07/2025</span>
+        <span>Backend Developer</span>
+      </div>
+      <p class="project-desc">
+        Web application for a design atelier: managing custom orders, product catalog,
+        order status tracking, and client-staff interaction.
+        Implemented RBAC, normalized PostgreSQL schema with constraints and indexes,
+        Docker Compose orchestration, and async email notifications via JavaMail.
+      </p>
+      <div class="project-stack">
+        <span>Java</span>
+        <span>Spring Boot</span>
+        <span>Spring Security</span>
+        <span>PostgreSQL</span>
+        <span>Flyway</span>
+        <span>Docker</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="project reveal-text">
+    <div class="project-info">
+      <h3>Room & Desk Booking System</h3>
+      <div class="project-meta">
+        <span>02/2024 — 09/2024</span>
+        <span>Backend Developer</span>
+      </div>
+      <p class="project-desc">
+        Pet project — REST API for booking meeting rooms and workspaces with a multi-role
+        access model (Guest, Member, Corporate Admin, System Admin).
+        Prevented booking conflicts at the DB level using PostgreSQL EXCLUDE constraint.
+        Used Redis for caching and identifying popular booking slots.
+        Full unit test coverage with JUnit 5 and Mockito.
+      </p>
+      <div class="project-stack">
+        <span>Java</span>
+        <span>Spring Boot</span>
+        <span>JWT</span>
+        <span>Redis</span>
+        <span>PostgreSQL</span>
+        <span>JUnit 5</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="photo-section" id="photos">
+  <div class="section-label reveal-text">Gallery</div>
+  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Moments</h2>
+  <div class="photo-grid">
+    <div class="photo wide reveal-text">
+      <img src="5730FEA7-3C64-4A81-B1E5-88F6F6BB9BA4_1_105_c.jpeg" alt="Speaking at event" loading="lazy">
+    </div>
+    <div class="photo reveal-text">
+      <img src="5E04FDCD-222B-44D0-94C5-5E15E7BB8963_1_105_c.jpeg" alt="Portrait" loading="lazy">
+    </div>
+    <div class="photo reveal-text">
+      <img src="3B225086-E79C-42DC-8FA3-7BCB610E3D49_1_105_c.jpeg" alt="Close-up" loading="lazy">
+    </div>
+    <div class="photo reveal-text">
+      <img src="C9E7FB64-1F3B-4D19-AB22-E7FE297B3D3B_1_105_c.jpeg" alt="Elevator selfie" loading="lazy">
+    </div>
+    <div class="photo wide reveal-text">
+      <img src="B901794A-DCCC-41EA-A7A0-778C50FC46D5_1_105_c.jpeg" alt="Street portrait" loading="lazy">
+    </div>
+    <div class="photo reveal-text">
+      <img src="6C02B502-77E2-431E-A8A5-95BE4F1AEA1A_1_105_c.jpeg" alt="Artistic portrait" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-label reveal-text">Get in touch</div>
+  <h2 class="reveal-text">
+    Let's build<br>something<br><a href="mailto:wolllip09@gmail.com">together.</a>
+  </h2>
+  <div class="contact-links reveal-text">
+    <a href="mailto:wolllip09@gmail.com">wolllip09@gmail.com</a>
+    <a href="https://t.me/wolllip" target="_blank">Telegram</a>
+    <a href="https://github.com/wolllipp" target="_blank">GitHub</a>
+    <a href="Ivan_Skworetz_JavaDeveloper.pdf" target="_blank">Resume PDF</a>
+  </div>
+</section>
+
+<footer>
+  <span>&copy; 2026 Ivan Skworetz</span>
+  <span>Minsk, Belarus</span>
+</footer>
+
+<script>
+// Letter-by-letter hero animation is CSS-only via @keyframes charReveal
+
+// Intersection Observer for reveal animations
+const observerOptions = {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+
+      // Animate skill list items with stagger
+      if (entry.target.closest('.skill-group')) {
+        const items = entry.target.querySelectorAll('li');
+        items.forEach((li, i) => {
+          setTimeout(() => li.classList.add('visible'), i * 80);
+        });
+      }
+
+      // Animate words inside reveal-text with stagger
+      const words = entry.target.querySelectorAll('.word');
+      if (words.length) {
+        words.forEach((word, i) => {
+          setTimeout(() => {
+            word.style.transitionDelay = `${i * 0.06}s`;
+            word.classList.add('visible');
+          }, 100);
+        });
+      }
+
+      // Line reveal
+      if (entry.target.classList.contains('line-reveal')) {
+        entry.target.classList.add('visible');
+      }
+
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Observe all reveal elements
+document.querySelectorAll('.reveal-text, .skill-group li, .line-reveal').forEach(el => {
+  observer.observe(el);
+});
+
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// Smooth parallax on scroll for hero
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      const hero = document.querySelector('.hero-title');
+      if (hero && scrollY < window.innerHeight) {
+        hero.style.transform = `translateY(${scrollY * 0.3}px)`;
+        hero.style.opacity = 1 - scrollY / window.innerHeight;
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+</script>
+
+</body>
+</html>
