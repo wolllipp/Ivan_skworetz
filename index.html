@@ -114,6 +114,42 @@ nav .nav-links a:hover {
   animation: fadeUp 1s 1.4s forwards;
 }
 
+.hero-links {
+  display: flex;
+  gap: 24px;
+  margin-top: 28px;
+  opacity: 0;
+  animation: fadeUp 1s 1.6s forwards;
+}
+
+.hero-links a {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 1px;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.hero-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--text);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-links a:hover {
+  color: var(--text);
+}
+
+.hero-links a:hover::after {
+  width: 100%;
+}
+
 .hero-scroll {
   position: absolute;
   bottom: 40px;
@@ -690,6 +726,12 @@ nav .nav-toggle {
     <span class="line"><span class="char" style="animation-delay: 0.35s">S</span><span class="char" style="animation-delay: 0.4s">k</span><span class="char" style="animation-delay: 0.45s">w</span><span class="char" style="animation-delay: 0.5s">o</span><span class="char" style="animation-delay: 0.55s">r</span><span class="char" style="animation-delay: 0.6s">e</span><span class="char" style="animation-delay: 0.65s">t</span><span class="char" style="animation-delay: 0.7s">z</span></span>
   </h1>
   <p class="hero-subtitle">Java Developer — Backend Systems &amp; REST APIs</p>
+  <div class="hero-links">
+    <a href="mailto:wolllip09@gmail.com">Email</a>
+    <a href="https://t.me/wolllip" target="_blank">Telegram</a>
+    <a href="https://github.com/wolllipp" target="_blank">GitHub</a>
+    <a href="Ivan_Skworetz_JavaDeveloper.pdf" target="_blank">Resume</a>
+  </div>
   <div class="hero-scroll">Scroll</div>
 </section>
 
