@@ -1,1053 +1,741 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="format-detection" content="telephone=no">
-<title>Ivan Skworetz — Java Developer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Иван Скворец — Full Stack</title>
+<meta name="description" content="Иван Скворец — Full Stack разработчик: Java / Spring Boot, Node.js, SvelteKit. Минск.">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
-  --bg: #0a0a0a;
-  --text: #f0f0f0;
-  --text-dim: #666;
-  --accent: #c0c0c0;
-  --border: #1a1a1a;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* NAV */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 24px 48px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  mix-blend-mode: difference;
-}
-
-nav .logo {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-nav .nav-links {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-}
-
-nav .nav-links a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  opacity: 0.6;
-  transition: opacity 0.3s;
-}
-
-nav .nav-links a:hover {
-  opacity: 1;
-}
-
-/* HERO */
-.hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 48px;
-  position: relative;
-}
-
-.hero-title {
-  font-size: clamp(3rem, 8vw, 7.5rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -3px;
-}
-
-.hero-title .line {
-  display: block;
-  overflow: hidden;
-}
-
-.hero-title .line .char {
-  display: inline-block;
-  transform: translateY(110%);
-  animation: charReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.hero-subtitle {
-  margin-top: 32px;
-  font-size: 1.1rem;
-  font-weight: 300;
-  color: var(--text-dim);
-  letter-spacing: 0.5px;
-  opacity: 0;
-  animation: fadeUp 1s 1.4s forwards;
-}
-
-.hero-links {
-  display: flex;
-  gap: 24px;
-  margin-top: 28px;
-  opacity: 0;
-  animation: fadeUp 1s 1.6s forwards;
-}
-
-.hero-links a {
-  font-size: 13px;
-  color: var(--text-dim);
-  text-decoration: none;
-  letter-spacing: 1px;
-  position: relative;
-  transition: color 0.3s;
-}
-
-.hero-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--text);
-  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-links a:hover {
-  color: var(--text);
-}
-
-.hero-links a:hover::after {
-  width: 100%;
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 48px;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  opacity: 0;
-  animation: fadeUp 1s 1.8s forwards;
-}
-
-.hero-scroll::after {
-  content: '';
-  display: block;
-  width: 1px;
-  height: 40px;
-  background: var(--text-dim);
-  margin-top: 8px;
-  animation: scrollLine 2s infinite;
-}
-
-@keyframes charReveal {
-  to { transform: translateY(0); }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scrollLine {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
-  50% { opacity: 1; transform: scaleY(1); }
-}
-
-/* SECTIONS */
-section {
-  padding: 120px 48px;
-}
-
-.section-label {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 48px;
-}
-
-/* ABOUT */
-.about {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-  min-height: 80vh;
-}
-
-.about-image {
-  position: relative;
-  overflow: hidden;
-}
-
-.about-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: grayscale(0.3);
-  transition: filter 0.6s;
-}
-
-.about-image:hover img {
-  filter: grayscale(0);
-}
-
-.about-text h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -1.5px;
-  margin-bottom: 32px;
-}
-
-.about-text p {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--accent);
-  font-weight: 300;
-  max-width: 500px;
-}
-
-/* REVEAL TEXT ANIMATION */
-.reveal-text {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal-text.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-text .line-flow {
-  display: block;
-  overflow: hidden;
-}
-
-.reveal-text .line-flow .word {
-  display: inline-block;
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s;
-}
-
-.reveal-text.visible .line-flow .word {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* SKILLS */
-.skills {
-  border-top: 1px solid var(--border);
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
-  margin-top: 64px;
-}
-
-.skill-group h3 {
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.skill-group ul {
-  list-style: none;
-}
-
-.skill-group ul li {
-  font-size: 1rem;
-  font-weight: 300;
-  padding: 8px 0;
-  color: var(--accent);
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.skill-group ul li.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* PROJECTS */
-.projects {
-  border-top: 1px solid var(--border);
-}
-
-.project {
-  padding: 64px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.project-info h3 {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: -1px;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-
-.project-meta {
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 24px;
-  letter-spacing: 0.5px;
-}
-
-.project-meta span {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.project-desc {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: var(--accent);
-  font-weight: 300;
-  margin-bottom: 24px;
-}
-
-.project-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.project-stack span {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  color: var(--text-dim);
-}
-
-.project-image {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-}
-
-.project-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(0.5);
-  transition: filter 0.6s, transform 0.6s;
-}
-
-.project-image:hover img {
-  filter: grayscale(0);
-  transform: scale(1.03);
-}
-
-/* PHOTO GRID */
-.photo-section {
-  border-top: 1px solid var(--border);
-}
-
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 48px;
-}
-
-.photo-grid .photo {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-}
-
-.photo-grid .photo.wide {
-  grid-column: span 2;
-  aspect-ratio: 16/9;
-}
-
-.photo-grid .photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(0.4);
-  transition: filter 0.6s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.photo-grid .photo:hover img {
-  filter: grayscale(0);
-  transform: scale(1.05);
-}
-
-/* CONTACT */
-.contact {
-  border-top: 1px solid var(--border);
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.contact h2 {
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -2px;
-  line-height: 1.1;
-  margin-bottom: 48px;
-}
-
-.contact h2 a {
-  color: var(--text);
-  text-decoration: none;
-  position: relative;
-}
-
-.contact h2 a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--text);
-  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.contact h2 a:hover::after {
-  width: 100%;
-}
-
-.contact-links {
-  display: flex;
-  gap: 40px;
-}
-
-.contact-links a {
-  font-size: 14px;
-  color: var(--text-dim);
-  text-decoration: none;
-  letter-spacing: 1px;
-  transition: color 0.3s;
-}
-
-.contact-links a:hover {
-  color: var(--text);
-}
-
-/* FOOTER */
-footer {
-  padding: 24px 48px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-}
-
-/* MARQUEE TEXT */
-.marquee-section {
-  padding: 60px 0;
-  overflow: hidden;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.marquee {
-  display: flex;
-  animation: marquee 20s linear infinite;
-  white-space: nowrap;
-}
-
-.marquee span {
-  font-size: clamp(4rem, 10vw, 9rem);
-  font-weight: 700;
-  letter-spacing: -3px;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--text-dim);
-  padding: 0 40px;
-  flex-shrink: 0;
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* PROJECT SCREENSHOT COLLAGE — center text layout */
-.project-showcase {
-  padding: 80px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.project-showcase .section-label {
-  margin-bottom: 12px;
-}
-
-.project-showcase h3 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 600;
-  letter-spacing: -1.5px;
-  margin-bottom: 12px;
-  line-height: 1.15;
-}
-
-.project-showcase .project-meta {
-  margin-bottom: 0;
-}
-
-.project-collage {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 12px;
-  margin-top: 48px;
-  align-items: center;
-}
-
-.project-collage .collage-item {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #111;
-}
-
-.project-collage .collage-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-collage .collage-item:hover img {
-  transform: scale(1.04);
-}
-
-.collage-left, .collage-right {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.collage-center {
-  text-align: center;
-  padding: 40px 24px;
-}
-
-.collage-center .project-desc {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: var(--accent);
-  font-weight: 300;
-  margin-bottom: 28px;
-  max-width: 380px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.collage-center .project-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-.collage-center .project-stack span {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  color: var(--text-dim);
-  transition: border-color 0.3s, color 0.3s;
-}
-
-.collage-center .project-stack span:hover {
-  border-color: var(--text-dim);
-  color: var(--text);
-}
-
-.collage-left .collage-item:nth-child(1) {
-  aspect-ratio: 4/5;
-}
-
-.collage-left .collage-item:nth-child(2) {
-  aspect-ratio: 16/10;
-}
-
-.collage-right .collage-item:nth-child(1) {
-  aspect-ratio: 16/10;
-}
-
-.collage-right .collage-item:nth-child(2) {
-  aspect-ratio: 4/5;
-}
-
-/* HORIZONTAL LINE REVEAL */
-.line-reveal {
-  height: 1px;
-  background: var(--border);
-  position: relative;
-  overflow: hidden;
-}
-
-.line-reveal::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  background: var(--text-dim);
-  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.line-reveal.visible::after {
-  width: 100%;
-}
-
-/* RESPONSIVE */
-nav .nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text);
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 101;
-}
-
-/* NAV OVERLAY */
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s, visibility 0.4s;
-  z-index: 99;
-}
-.nav-overlay.open {
-  opacity: 0.7;
-  visibility: visible;
-}
-
-@media (max-width: 768px) {
-  nav { padding: 16px 24px; }
-  nav .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 70%;
-    height: 100vh;
-    background: var(--bg);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    border-left: 1px solid var(--border);
+  --bg: #fbfbfd;
+  --bg-alt: #f5f5f7;
+  --tile: #ffffff;
+  --ink: #1d1d1f;
+  --ink-2: #6e6e73;
+  --ink-3: #86868b;
+  --line: #d2d2d7;
+  --blue: #0071e3;
+  --blue-ink: #0066cc;
+  --glass: rgba(251, 251, 253, .72);
+  --shadow: 0 2px 6px rgba(0,0,0,.04), 0 12px 40px rgba(0,0,0,.08);
+  --ph-a: #eef0f4; --ph-b: #e3e6ec;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000; --bg-alt: #0b0b0c; --tile: #161617; --ink: #f5f5f7; --ink-2: #a1a1a6; --ink-3: #86868b;
+    --line: #2d2d30; --blue: #2997ff; --blue-ink: #2997ff; --glass: rgba(22, 22, 23, .72);
+    --shadow: 0 2px 6px rgba(0,0,0,.3), 0 12px 40px rgba(0,0,0,.5);
+    --ph-a: #1a1a1c; --ph-b: #222225;
+    color-scheme: dark;
   }
-  nav .nav-links.open { right: 0; }
-  nav .nav-links a { font-size: 18px; opacity: 0.8; }
-  nav .nav-toggle { display: block; }
-  section { padding: 64px 20px; }
-  .hero { padding: 0 20px; }
-  .hero-title { letter-spacing: -1px; }
-  .about { grid-template-columns: 1fr; gap: 40px; }
-  .about-text h2 { font-size: 1.8rem; }
-  .skills-grid { grid-template-columns: 1fr; gap: 32px; }
-  .project { padding: 48px 0; }
-  .project-info h3 { font-size: 1.5rem; }
-  .project-stack { gap: 6px; }
-  .project-stack span { font-size: 10px; padding: 5px 10px; }
-  .photo-grid { grid-template-columns: 1fr; gap: 12px; }
-  .photo-grid .photo.wide { grid-column: span 1; }
-  .contact h2 { font-size: 2rem; letter-spacing: -1px; }
-  .contact-links { flex-direction: column; gap: 16px; }
-  footer { padding: 16px 20px; flex-direction: column; gap: 8px; }
-  .marquee span { font-size: 4.5rem; -webkit-text-stroke: 1.5px var(--text-dim); }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans); background: var(--bg); color: var(--ink);
+  font-size: 17px; line-height: 1.47; letter-spacing: -.011em;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: var(--blue-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
+img { display: block; max-width: 100%; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
+.wide { max-width: 1240px; margin: 0 auto; padding: 0 22px; }
+svg.i { width: 1em; height: 1em; flex: none; }
+
+/* ---------- nav: translucent material ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 50; height: 52px;
+  background: var(--glass);
+  backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  transition: box-shadow .3s;
+}
+.nav.scrolled { box-shadow: 0 1px 0 color-mix(in srgb, var(--line) 70%, transparent); }
+.nav .wide { height: 100%; display: flex; align-items: center; gap: 28px; }
+.nav .brand { font-weight: 600; font-size: 19px; color: var(--ink); letter-spacing: -.02em; margin-right: auto; }
+.nav .brand:hover { text-decoration: none; }
+.nav a.l { color: var(--ink); opacity: .8; font-size: 12px; transition: opacity .2s; }
+.nav a.l:hover { opacity: 1; text-decoration: none; }
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 22px; border-radius: 980px; border: 0;
+  background: var(--blue); color: #fff; font: 500 17px var(--sans); letter-spacing: -.01em;
+  cursor: pointer; transition: transform .1s ease-out, background .2s, filter .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.pill:hover { text-decoration: none; filter: brightness(1.08); }
+.pill:active { transform: scale(.97); }
+.pill.sm { min-height: 28px; padding: 0 12px; font-size: 12px; }
+.pill.ghost { background: transparent; color: var(--blue-ink); box-shadow: inset 0 0 0 1px var(--blue); }
+.link-more { display: inline-flex; align-items: center; gap: 2px; font-size: 17px; min-height: 44px; }
+.link-more::after { content: '›'; font-size: 1.2em; transform: translateY(-1px); margin-left: 4px; transition: transform .25s var(--ease); }
+.link-more:hover::after { transform: translate(3px, -1px); }
+
+/* ---------- hero ---------- */
+.hero { text-align: center; padding: 88px 0 0; overflow: hidden; }
+.eyebrow { font-size: 21px; font-weight: 600; color: var(--ink-2); letter-spacing: -.01em; }
+.hero h1 {
+  font-size: clamp(56px, 11vw, 136px); line-height: 1; letter-spacing: -.045em; font-weight: 700;
+  margin-top: 6px;
+  background: linear-gradient(180deg, var(--ink) 30%, color-mix(in srgb, var(--ink) 55%, transparent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: .06em;
+}
+.hero .sub { font-size: clamp(21px, 2.6vw, 28px); line-height: 1.2; font-weight: 600; letter-spacing: -.02em; margin: 18px auto 0; max-width: 760px; }
+.grad {
+  background: linear-gradient(90deg, #0071e3, #7d4cdb 50%, #d1418a);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .ctas { display: flex; gap: 18px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+
+/* materialize-in on load (blur + rise) */
+.intro { opacity: 0; filter: blur(12px); transform: translateY(18px) scale(.98);
+  animation: materialize 1.1s var(--ease) forwards; animation-delay: calc(var(--d, 0) * 110ms + 120ms); }
+@keyframes materialize { to { opacity: 1; filter: blur(0); transform: none; } }
+
+.stage { position: relative; margin: 64px auto 0; width: min(100%, 1080px); padding: 0 22px; }
+.portrait {
+  position: relative; border-radius: 36px; overflow: hidden; aspect-ratio: 16/10;
+  background: linear-gradient(180deg, rgba(212,165,233,.9), rgba(212,165,233,0) 45%), linear-gradient(90deg, rgb(223,190,239), rgb(218,200,239));
+  transform: scale(var(--s, .9)); transform-origin: 50% 0; will-change: transform;
+  box-shadow: var(--shadow);
+}
+.portrait img { position: absolute; left: 50%; top: -5%; height: 110%; width: auto; max-width: none;
+  transform: translate3d(-50%, var(--py, 0px), 0); will-change: transform;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); }
+.portrait::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.35)); pointer-events: none; }
+.portrait .cap { position: absolute; left: 28px; bottom: 24px; right: 28px; z-index: 1; color: #fff;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; text-align: left; }
+.portrait .cap b { font-size: 24px; letter-spacing: -.02em; display: block; line-height: 1.15; }
+.portrait .cap span { font-size: 14px; opacity: .85; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: 980px; color: #fff;
+  background: rgba(255,255,255,.18); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: #34c759; animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(52,199,89,.6); } 50% { box-shadow: 0 0 0 6px rgba(52,199,89,0); } }
+
+/* floating glass chips around the portrait */
+.float {
+  position: absolute; z-index: 2; display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 980px; font-size: 15px; font-weight: 600; color: var(--ink);
+  background: var(--glass); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.5);
+  transform: translate3d(0, var(--fy, 0px), 0); will-change: transform;
+}
+.float .dot { width: 10px; height: 10px; border-radius: 3px; }
+.f1 { left: 0; top: 14%; } .f2 { right: 0; top: 30%; } .f3 { left: 4%; bottom: 14%; } .f4 { right: 6%; bottom: 6%; }
+
+/* ---------- statement: scroll-lit words ---------- */
+.statement { padding: 160px 0 140px; }
+.statement p {
+  font-size: clamp(30px, 4.6vw, 56px); line-height: 1.12; letter-spacing: -.035em; font-weight: 700;
+  max-width: 980px;
+}
+.statement .w { color: color-mix(in srgb, var(--ink) 18%, transparent); transition: color .35s; }
+.statement .w.on { color: var(--ink); }
+.statement .w.hl.on { background: linear-gradient(90deg, #0071e3, #a24bd8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- section headings ---------- */
+.sec { padding: 110px 0; }
+.sec.alt { background: var(--bg-alt); }
+.h2 { font-size: clamp(40px, 6vw, 80px); line-height: 1.05; letter-spacing: -.04em; font-weight: 700; }
+.h2-sub { font-size: clamp(19px, 2vw, 24px); color: var(--ink-2); font-weight: 600; letter-spacing: -.015em; margin-top: 14px; max-width: 640px; line-height: 1.3; }
+.center { text-align: center; }
+.center .h2-sub { margin-left: auto; margin-right: auto; }
+
+/* ---------- bento ---------- */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; margin-top: 56px; }
+.tile {
+  background: var(--tile); border-radius: 28px; padding: 32px; position: relative; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+@media (hover: hover) { .tile:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow); } }
+.t-2 { grid-column: span 2; } .t-3 { grid-column: span 3; } .t-4 { grid-column: span 4; } .t-6 { grid-column: span 6; }
+.tile .k { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.tile .num { font-size: clamp(56px, 7vw, 96px); font-weight: 700; letter-spacing: -.05em; line-height: 1; margin: 10px 0 8px; font-variant-numeric: tabular-nums; }
+.tile .num.grad-a { background: linear-gradient(135deg, #0071e3, #5e5ce6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tile .num.grad-b { background: linear-gradient(135deg, #ff6b00, #ff2d55); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tile .num.grad-c { background: linear-gradient(135deg, #30d158, #0a84ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tile .num.grad-d { background: linear-gradient(135deg, #bf5af2, #ff375f); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tile p { color: var(--ink-2); font-size: 17px; }
+.tile h3 { font-size: 28px; letter-spacing: -.025em; line-height: 1.12; font-weight: 700; margin-bottom: 18px; }
+.tile .glyph { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: #fff; margin-bottom: 18px; font-size: 22px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 15px; font-weight: 500; padding: 7px 14px; border-radius: 980px; background: var(--bg-alt); color: var(--ink); white-space: nowrap; }
+.sec.alt .chip { background: var(--bg); }
+.soft { background: var(--bg-alt) !important; } .soft .chip { background: var(--tile); }
+h1, h2, h3, h4, .lede, .sub, .h2-sub { text-wrap: balance; }
+.langs { display: grid; gap: 14px; }
+.langs div { display: flex; justify-content: space-between; font-size: 19px; font-weight: 600; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.langs div:last-child { border: 0; padding: 0; }
+.langs span { color: var(--ink-2); font-weight: 500; }
+
+/* ---------- projects ---------- */
+.project { padding: 120px 0 110px; overflow: hidden; }
+.project.dark { background: #000; color: #f5f5f7; --ink: #f5f5f7; --ink-2: #a1a1a6; --tile: #161617; --bg-alt: #1d1d1f; --line: #333336; --ph-a: #141416; --ph-b: #1c1c1f; --blue-ink: #2997ff; }
+.badge { display: inline-block; font-size: 15px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 10px; }
+.project h2 { font-size: clamp(40px, 6.4vw, 80px); line-height: 1.04; letter-spacing: -.045em; font-weight: 700; max-width: 900px; margin: 0 auto; }
+.project .lede { font-size: clamp(19px, 2vw, 24px); line-height: 1.33; font-weight: 600; color: var(--ink-2); letter-spacing: -.015em; max-width: 720px; margin: 18px auto 0; }
+.project .meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 28px; margin-top: 22px; font-size: 15px; color: var(--ink-2); }
+.project .meta b { color: var(--ink); font-weight: 600; }
+
+/* browser mockup */
+.device { margin: 64px auto 0; max-width: 1080px; transform: translateY(var(--ry, 60px)) scale(var(--rs, .92)); transform-origin: 50% 100%; opacity: var(--ro, .4); will-change: transform, opacity; }
+.window { border-radius: 18px; overflow: hidden; background: var(--tile); box-shadow: 0 30px 80px rgba(0,0,0,.18), 0 0 0 1px color-mix(in srgb, var(--line) 60%, transparent); }
+.project.dark .window { box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px #2d2d30; }
+.chrome { height: 40px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: color-mix(in srgb, var(--bg-alt) 80%, var(--tile)); border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.chrome i { width: 12px; height: 12px; border-radius: 50%; }
+.chrome i:nth-child(1) { background: #ff5f57; } .chrome i:nth-child(2) { background: #febc2e; } .chrome i:nth-child(3) { background: #28c840; }
+.chrome .url { margin: 0 auto; font-size: 12px; color: var(--ink-2); background: var(--tile); padding: 4px 40px; border-radius: 7px; transform: translateX(-26px); max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* placeholder (auto-replaced by image when the file exists) */
+.ph {
+  position: relative; aspect-ratio: 16/10; overflow: hidden;
+  background: radial-gradient(120% 90% at 20% 0%, var(--ph-b), var(--ph-a) 60%);
+  display: grid; place-items: center; text-align: center; color: var(--ink-2);
+}
+.ph::before { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, var(--tile) 55%, transparent) 50%, transparent 70%);
+  background-size: 250% 100%; animation: sheen 3.2s ease-in-out infinite; }
+@keyframes sheen { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+.ph .in { position: relative; display: grid; gap: 8px; justify-items: center; padding: 16px; }
+.ph svg { width: 34px; height: 34px; opacity: .55; }
+.ph b { font-size: 17px; color: var(--ink); font-weight: 600; letter-spacing: -.015em; }
+.ph code { font: 12px ui-monospace, "SF Mono", Menlo, monospace; padding: 3px 10px; border-radius: 6px; background: color-mix(in srgb, var(--tile) 70%, transparent); }
+.ph.loaded { background: none; }
+.ph.loaded::before, .ph.loaded .in { display: none; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: fadeImg .6s var(--ease); }
+@keyframes fadeImg { from { opacity: 0; transform: scale(1.02); } }
+
+/* gallery: horizontal snap rail */
+.rail { display: grid; margin-top: 16px !important; grid-auto-flow: column; grid-auto-columns: min(78%, 520px); gap: 20px; overflow-x: auto;
+  scroll-snap-type: x mandatory; padding: 4px 22px 18px; margin-top: 28px; scrollbar-width: none;
+  --gut: max(22px, calc((100vw - 1080px) / 2 + 22px)); padding-left: var(--gut); padding-right: var(--gut); scroll-padding: 0 var(--gut); overscroll-behavior-x: contain; }
+.rail::-webkit-scrollbar { display: none; }
+.rail > figure { scroll-snap-align: start; border-radius: 22px; overflow: hidden; background: var(--tile); }
+.rail .ph { aspect-ratio: 16/10; }
+.rail .ph img { object-position: 0 0; }
+.device .ph img { object-position: 50% 0; }
+.rail-ctrl[hidden] { display: none; }
+
+/* code window (project without screenshots) */
+.code-win { background: #1d1d1f; }
+.code-win .chrome { background: #2a2a2d; border-color: #3a3a3d; }
+.code-win .chrome .url { background: #1d1d1f; color: #a1a1a6; }
+.code { margin: 0; padding: 32px 36px 36px; overflow-x: auto; color: #e5e5ea;
+  font: 15px/1.65 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0; tab-size: 4; }
+.code .kw { color: #ff7ab2; } .code .ty { color: #7ac7ff; } .code .st { color: #ffa14f; }
+.code .mark { display: inline-block; width: calc(100% + 72px); margin: 0 -36px; padding: 0 36px;
+  background: linear-gradient(90deg, rgba(48,209,88,.16), rgba(48,209,88,.04)); box-shadow: inset 3px 0 0 #30d158; }
+.rail figcaption { padding: 14px 18px 16px; font-size: 14px; color: var(--ink-2); }
+.rail-ctrl { display: flex; justify-content: flex-end; gap: 10px; max-width: 1080px; margin: 36px auto 0; padding: 0 22px; }
+.rail-ctrl button { width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); font-size: 20px; transition: background .2s, transform .1s, opacity .2s; }
+.rail-ctrl button:hover { background: color-mix(in srgb, var(--ink) 14%, transparent); }
+.rail-ctrl button:active { transform: scale(.94); }
+.rail-ctrl button:disabled { opacity: .35; cursor: default; }
+
+/* highlights grid under each project */
+.feat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
+.feat .tile { padding: 28px; }
+.feat .tile h4 { font-size: 21px; letter-spacing: -.02em; line-height: 1.2; margin-bottom: 8px; font-weight: 700; }
+.feat .tile p { font-size: 16px; }
+.feat .tile .ico { font-size: 28px; margin-bottom: 14px; display: block; }
+.stack-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 40px; }
+details.all { max-width: 760px; margin: 28px auto 0; }
+details.all summary { list-style: none; cursor: pointer; text-align: center; color: var(--blue-ink); font-size: 17px; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+details.all summary::-webkit-details-marker { display: none; }
+details.all summary .pl { display: inline-block; transition: transform .35s var(--ease); }
+details.all[open] summary .pl { transform: rotate(45deg); }
+details.all ul { list-style: none; display: grid; gap: 12px; margin-top: 12px; padding: 24px 28px; background: var(--tile); border-radius: 22px; }
+details.all li { color: var(--ink-2); padding-left: 22px; position: relative; font-size: 16px; }
+details.all li::before { content: ''; position: absolute; left: 4px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+details.all[open] ul { animation: drop .5s var(--ease); }
+@keyframes drop { from { opacity: 0; transform: translateY(-8px); } }
+
+/* ---------- contact ---------- */
+.contact { padding: 160px 0 150px; text-align: center; }
+.contact h2 { font-size: clamp(48px, 9vw, 112px); line-height: 1; letter-spacing: -.05em; font-weight: 700; }
+.contact p { font-size: 21px; color: var(--ink-2); margin: 22px auto 0; max-width: 560px; font-weight: 500; }
+.contact .ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+footer { background: var(--bg-alt); color: var(--ink-3); font-size: 12px; padding: 20px 0 28px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 16px; }
+
+/* ---------- scroll reveal ---------- */
+.rv { opacity: 0; transform: translateY(36px); filter: blur(6px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease), filter 1s var(--ease);
+  transition-delay: calc(var(--i, 0) * 80ms); }
+.rv.in { opacity: 1; transform: none; filter: none; }
+.no-js .rv, .no-js .intro { opacity: 1; transform: none; filter: none; animation: none; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .t-2, .t-3 { grid-column: span 1; } .t-4, .t-6 { grid-column: span 2; }
+  .feat { grid-template-columns: 1fr; }
+  .float { font-size: 13px; padding: 8px 12px; }
+  .f2 { top: 10%; } .f3 { display: none; }
+}
+@media (max-width: 640px) {
+  .nav a.l { display: none; }
+  .hero { padding-top: 56px; }
+  .stage { margin-top: 44px; }
+  .portrait { aspect-ratio: 4/5; border-radius: 28px; }
+  .portrait .cap { left: 18px; right: 18px; bottom: 18px; flex-direction: column; align-items: flex-start; }
+  .float { display: none; }
+  .bento { grid-template-columns: 1fr; gap: 14px; }
+  .t-2, .t-3, .t-4, .t-6 { grid-column: span 1; }
+  .tile { padding: 26px; border-radius: 24px; }
+  .sec, .project { padding: 80px 0; }
+  .statement { padding: 100px 0; }
+  .window { border-radius: 12px; }
+  .chrome { height: 30px; } .chrome i { width: 9px; height: 9px; } .chrome .url { display: none; }
+  .contact { padding: 110px 0; }
+  .code { font-size: 12px; padding: 20px; }
+  .code .mark { width: calc(100% + 40px); margin: 0 -20px; padding: 0 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro, .rv { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; transition: opacity .2s !important; }
+  .portrait, .portrait img, .float, .device { transform: none !important; opacity: 1 !important; }
+  .ph::before, .live i { animation: none; }
+  .statement .w { color: var(--ink); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nav, .float { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ---------- print / PDF ---------- */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  :root { --bg: #fff; --bg-alt: #fff; --tile: #fff; --ink: #000; --ink-2: #333; }
+  body { font-size: 10.5pt; }
+  .nav, .float, .rail, .rail-ctrl, .device, .contact .ctas, .hero .ctas, details.all summary { display: none !important; }
+  .rv, .intro { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+  .project.dark { background: #fff; color: #000; --ink: #000; --ink-2: #333; --tile: #fff; }
+  .hero { padding: 0; text-align: left; } .hero h1 { font-size: 40pt; }
+  .stage { display: none; }
+  .statement { padding: 16px 0; } .statement p { font-size: 15pt; } .statement .w { color: #000 !important; }
+  .sec, .project, .contact { padding: 14px 0; }
+  .project h2, .project .lede, .project .meta { text-align: left; margin-left: 0; justify-content: flex-start; }
+  .project h2 { font-size: 20pt; }
+  .tile { box-shadow: none; border: 1px solid #ddd; padding: 12px; break-inside: avoid; }
+  .tile .num { font-size: 26pt; }
+  .feat { grid-template-columns: repeat(3, 1fr); margin-top: 12px; gap: 8px; }
+  details.all ul { display: grid !important; padding: 8px 0; }
+  .contact h2 { font-size: 20pt; }
+  footer { display: none; }
 }
 </style>
 </head>
-<body>
+<body class="no-js">
 
-<nav>
-  <div class="logo">IS</div>
-  <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-<div class="nav-overlay" id="navOverlay"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+</svg>
 
-<section class="hero">
-  <h1 class="hero-title" id="heroTitle">
-    <span class="line"><span class="char" style="animation-delay: 0.1s">I</span><span class="char" style="animation-delay: 0.15s">v</span><span class="char" style="animation-delay: 0.2s">a</span><span class="char" style="animation-delay: 0.25s">n</span></span>
-    <span class="line"><span class="char" style="animation-delay: 0.35s">S</span><span class="char" style="animation-delay: 0.4s">k</span><span class="char" style="animation-delay: 0.45s">w</span><span class="char" style="animation-delay: 0.5s">o</span><span class="char" style="animation-delay: 0.55s">r</span><span class="char" style="animation-delay: 0.6s">e</span><span class="char" style="animation-delay: 0.65s">t</span><span class="char" style="animation-delay: 0.7s">z</span></span>
-  </h1>
-  <p class="hero-subtitle">Java Developer — Backend Systems &amp; REST APIs</p>
-  <div class="hero-links">
-    <a href="mailto:wolllip09@gmail.com">Email</a>
-    <a href="https://t.me/wolllip" target="_blank">Telegram</a>
-    <a href="https://github.com/wolllipp" target="_blank">GitHub</a>
-    <a href="Ivan_Skworetz_JavaDeveloper.pdf" target="_blank">Resume</a>
+<header class="nav" id="nav">
+  <div class="wide">
+    <a class="brand" href="#top">Иван Скворец</a>
+    <a class="l" href="#about">Обо мне</a>
+    <a class="l" href="#skills">Навыки</a>
+    <a class="l" href="#projects">Проекты</a>
+    <a class="l" href="#contact">Контакты</a>
+    <button class="pill sm" type="button" onclick="window.print()">Скачать PDF</button>
   </div>
-  <div class="hero-scroll">Scroll</div>
-</section>
+</header>
 
-<section class="marquee-section">
-  <div class="marquee">
-    <span>Java</span>
-    <span>Spring Boot</span>
-    <span>PostgreSQL</span>
-    <span>Docker</span>
-    <span>REST API</span>
-    <span>Java</span>
-    <span>Spring Boot</span>
-    <span>PostgreSQL</span>
-    <span>Docker</span>
-    <span>REST API</span>
-  </div>
-</section>
+<main id="top">
 
-<section class="about" id="about">
-  <div class="about-image reveal-text">
-    <img src="B901794A-DCCC-41EA-A7A0-778C50FC46D5_1_105_c.jpeg" alt="Ivan Skworetz" loading="lazy">
-  </div>
-  <div class="about-text">
-    <div class="section-label reveal-text">About</div>
-    <h2 class="reveal-text">Backend developer with 2+ years of commercial experience</h2>
-    <p class="reverse-flow-text">
-      Specializing in Spring Boot, fault-tolerant REST API design, and relational databases under high concurrency.
-      Built integrations through reverse-engineering undocumented protocols.
-      Focused on reliability and maintainability in production.
-    </p>
-  </div>
-</section>
-
-<section class="skills" id="skills">
-  <div class="section-label reveal-text">Expertise</div>
-  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Technical Stack</h2>
-  <p class="reveal-text" style="color: var(--text-dim); font-weight: 300; max-width: 500px; margin-bottom: 32px;">Technologies and tools I work with daily to build reliable systems.</p>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <h3>Backend</h3>
-      <ul>
-        <li>Java</li>
-        <li>Spring Boot</li>
-        <li>Spring Security</li>
-        <li>Spring Data JPA</li>
-        <li>Hibernate</li>
-        <li>JWT</li>
-        <li>SOLID / OOP</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <h3>Databases</h3>
-      <ul>
-        <li>PostgreSQL</li>
-        <li>MySQL</li>
-        <li>Redis</li>
-        <li>MongoDB</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <h3>DevOps</h3>
-      <ul>
-        <li>Docker</li>
-        <li>Docker Compose</li>
-        <li>CI/CD (GitHub Actions)</li>
-        <li>Flyway / Liquibase</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <h3>Frontend</h3>
-      <ul>
-        <li>HTML / CSS</li>
-        <li>JavaScript (ES6+)</li>
-        <li>SvelteKit</li>
-        <li>Sass / Figma</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <h3>Tools</h3>
-      <ul>
-        <li>Git / GitHub</li>
-        <li>Maven</li>
-        <li>IntelliJ IDEA</li>
-        <li>REST API</li>
-        <li>JUnit 5 / Mockito</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <h3>Languages</h3>
-      <ul>
-        <li>English (B2+)</li>
-        <li>Russian — Native</li>
-        <li>Belarusian — Native</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="line-reveal"></div>
-
-<section class="projects" id="projects">
-  <div class="section-label reveal-text">Experience</div>
-  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Selected Projects</h2>
-  <p class="reveal-text" style="color: var(--text-dim); font-weight: 300; max-width: 500px; margin-bottom: 32px;">Commercial and personal projects showcasing backend expertise.</p>
-
-  <div class="project reveal-text">
-    <div class="project-info">
-      <h3>SaaS Platform for Workflow Automation</h3>
-      <div class="project-meta">
-        <span>09/2025 — 05/2026</span>
-        <span>Backend Developer</span>
-      </div>
-      <p class="project-desc">
-        SaaS platform digitizing approval workflows — a lightweight CRM/BPM system.
-        Designed and implemented RBAC for three user groups with granular permissions.
-        Built a flexible document workflow engine with multi-stage approval, rejection, and archiving.
-        Integrated Telegram Bot API for real-time notifications, reducing staff reaction time by 40%.
-        Deployed and maintained in production.
-      </p>
-      <div class="project-stack">
-        <span>Java</span>
-        <span>Spring Boot</span>
-        <span>Spring Security</span>
-        <span>PostgreSQL</span>
-        <span>Docker</span>
-        <span>REST API</span>
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow intro" style="--d:0">Full Stack разработчик</p>
+      <h1 class="intro" style="--d:1">Иван Скворец.</h1>
+      <p class="sub intro" style="--d:2">Backend на <span class="grad">Java и Node.js</span>. Интерфейсы на SvelteKit.<br>От схемы БД до продакшена.</p>
+      <div class="ctas intro" style="--d:3">
+        <a class="pill" href="https://t.me/wolllip" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="link-more" href="#projects">Смотреть проекты</a>
       </div>
     </div>
-  </div>
 
-  <div class="project reveal-text">
-    <div class="project-info">
-      <h3>Order Management for Boutique Atelier</h3>
-      <div class="project-meta">
-        <span>10/2024 — 07/2025</span>
-        <span>Backend Developer</span>
-      </div>
-      <p class="project-desc">
-        Web application for a design atelier: managing custom orders, product catalog,
-        order status tracking, and client-staff interaction.
-        Implemented RBAC, normalized PostgreSQL schema with constraints and indexes,
-        Docker Compose orchestration, and async email notifications via JavaMail.
-      </p>
-      <div class="project-stack">
-        <span>Java</span>
-        <span>Spring Boot</span>
-        <span>Spring Security</span>
-        <span>PostgreSQL</span>
-        <span>Flyway</span>
-        <span>Docker</span>
-      </div>
+    <div class="stage intro" style="--d:4">
+      <div class="float f1" data-depth="-0.10"><span class="dot" style="background:#6db33f"></span>Spring Boot</div>
+      <div class="float f2" data-depth="0.14"><span class="dot" style="background:#ff3e00"></span>SvelteKit</div>
+      <div class="float f3" data-depth="0.08"><span class="dot" style="background:#336791"></span>PostgreSQL</div>
+      <div class="float f4" data-depth="-0.16"><span class="dot" style="background:#3178c6"></span>TypeScript</div>
+      <figure class="portrait" id="portrait">
+        <img src="img/portrait.jpg" alt="Иван Скворец" width="724" height="1086">
+        <figcaption class="cap">
+          <div><b>Минск, Беларусь</b><span>wolllip09@gmail.com</span></div>
+          <span class="live"><i></i>Открыт к предложениям</span>
+        </figcaption>
+      </figure>
     </div>
-  </div>
+  </section>
 
-  <div class="project reveal-text">
-    <div class="project-info">
-      <h3>Room & Desk Booking System</h3>
-      <div class="project-meta">
-        <span>02/2024 — 09/2024</span>
-        <span>Backend Developer</span>
-      </div>
-      <p class="project-desc">
-        Pet project — REST API for booking meeting rooms and workspaces with a multi-role
-        access model (Guest, Member, Corporate Admin, System Admin).
-        Prevented booking conflicts at the DB level using PostgreSQL EXCLUDE constraint.
-        Used Redis for caching and identifying popular booking slots.
-        Full unit test coverage with JUnit 5 and Mockito.
-      </p>
-      <div class="project-stack">
-        <span>Java</span>
-        <span>Spring Boot</span>
-        <span>JWT</span>
-        <span>Redis</span>
-        <span>PostgreSQL</span>
-        <span>JUnit 5</span>
+  <!-- ================= STATEMENT ================= -->
+  <section class="statement" id="about">
+    <div class="wrap">
+      <p id="statement">Более <em>2.5 лет</em> я проектирую <em>отказоустойчивые REST API</em> и схемы баз данных под конкурентную нагрузку, верстаю интерфейсы по макетам Figma и довожу продукт <em>до продакшена</em>. Однажды разобрал <em>недокументированный протокол</em> госреестра и построил на нём рабочую интеграцию.</p>
+    </div>
+  </section>
+
+  <!-- ================= NUMBERS ================= -->
+  <section class="sec alt">
+    <div class="wrap">
+      <h2 class="h2 rv">В цифрах.</h2>
+      <div class="bento">
+        <div class="tile t-3 rv"><span class="k">Опыт разработки</span><div class="num grad-a" data-count="2.5" data-suffix="+">0</div><p>года на backend и frontend</p></div>
+        <div class="tile t-3 rv" style="--i:1"><span class="k">Telegram-уведомления</span><div class="num grad-b" data-count="40" data-prefix="−" data-suffix="%">0</div><p>время реакции сотрудников на заявки</p></div>
+        <div class="tile t-2 rv" style="--i:2"><span class="k">Проекты</span><div class="num grad-c" data-count="4">0</div><p>от идеи до релиза</p></div>
+        <div class="tile t-2 rv" style="--i:3"><span class="k">В продакшене</span><div class="num grad-d" data-count="1">0</div><p>система, которой пользуется БГУИР</p></div>
+        <div class="tile t-2 rv" style="--i:4"><span class="k">Английский</span><div class="num">B2+</div><p>плюс русский и белорусский</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="photo-section" id="photos">
-  <div class="section-label reveal-text">Me</div>
-  <h2 class="reveal-text" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -1.5px; margin-bottom: 16px;">Me</h2>
-  <div class="photo-grid">
-    <div class="photo reveal-text">
-      <img src="5E04FDCD-222B-44D0-94C5-5E15E7BB8963_1_105_c.jpeg" alt="Portrait" loading="lazy">
+  <!-- ================= SKILLS ================= -->
+  <section class="sec" id="skills">
+    <div class="wrap">
+      <h2 class="h2 rv">Навыки.</h2>
+      <p class="h2-sub rv">Инструменты, с которыми я каждый день строю надёжные системы.</p>
+      <div class="bento">
+        <div class="tile t-4 rv soft">
+          <div class="glyph" style="background:linear-gradient(135deg,#6db33f,#2e7d32)">☕︎</div>
+          <h3>Backend</h3>
+          <div class="chips"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">Spring Data JPA</span><span class="chip">Hibernate</span><span class="chip">JWT</span><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">Prisma</span><span class="chip">REST API</span><span class="chip">SOLID / OOP</span></div>
+        </div>
+        <div class="tile t-2 rv soft" style="--i:1">
+          <div class="glyph" style="background:linear-gradient(135deg,#336791,#0a84ff)">⛁</div>
+          <h3>Базы данных</h3>
+          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Redis</span><span class="chip">MongoDB</span><span class="chip">Flyway</span><span class="chip">Liquibase</span></div>
+        </div>
+        <div class="tile t-3 rv soft">
+          <div class="glyph" style="background:linear-gradient(135deg,#ff6b00,#ff2d55)">◐</div>
+          <h3>Frontend</h3>
+          <div class="chips"><span class="chip">TypeScript</span><span class="chip">JavaScript ES6+</span><span class="chip">SvelteKit</span><span class="chip">Svelte 5</span><span class="chip">React</span><span class="chip">HTML / CSS</span><span class="chip">Sass</span><span class="chip">Figma</span></div>
+        </div>
+        <div class="tile t-3 rv soft" style="--i:1">
+          <div class="glyph" style="background:linear-gradient(135deg,#5e5ce6,#bf5af2)">⬡</div>
+          <h3>DevOps и тесты</h3>
+          <div class="chips"><span class="chip">Docker</span><span class="chip">Docker Compose</span><span class="chip">GitHub Actions</span><span class="chip">CI/CD</span><span class="chip">JUnit 5</span><span class="chip">Mockito</span><span class="chip">Git</span><span class="chip">Maven</span><span class="chip">IntelliJ IDEA</span></div>
+        </div>
+        <div class="tile t-6 rv soft">
+          <h3 style="margin-bottom:22px">Языки</h3>
+          <div class="langs"><div>Русский <span>Родной</span></div><div>Белорусский <span>Родной</span></div><div>Английский <span>B2+</span></div></div>
+        </div>
+      </div>
     </div>
-    <div class="photo reveal-text">
-      <img src="3B225086-E79C-42DC-8FA3-7BCB610E3D49_1_105_c.jpeg" alt="Close-up" loading="lazy">
-    </div>
-    <div class="photo reveal-text">
-      <img src="C9E7FB64-1F3B-4D19-AB22-E7FE297B3D3B_1_105_c.jpeg" alt="Elevator selfie" loading="lazy">
-    </div>
-    <div class="photo wide reveal-text">
-      <img src="B901794A-DCCC-41EA-A7A0-778C50FC46D5_1_105_c.jpeg" alt="Street portrait" loading="lazy">
-    </div>
-    <div class="photo reveal-text">
-      <img src="6C02B502-77E2-431E-A8A5-95BE4F1AEA1A_1_105_c.jpeg" alt="Artistic portrait" loading="lazy">
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="contact" id="contact">
-  <div class="section-label reveal-text">Get in touch</div>
-  <h2 class="reveal-text">
-    Let's build<br>something<br><a href="mailto:wolllip09@gmail.com">together.</a>
-  </h2>
-  <div class="contact-links reveal-text">
-    <a href="mailto:wolllip09@gmail.com">wolllip09@gmail.com</a>
-    <a href="https://t.me/wolllip" target="_blank">Telegram</a>
-    <a href="https://github.com/wolllipp" target="_blank">GitHub</a>
-    <a href="Ivan_Skworetz_JavaDeveloper.pdf" target="_blank">Resume PDF</a>
-  </div>
-</section>
+  <div id="projects"></div>
+
+  <!-- ================= PROJECT 01 ================= -->
+  <section class="project sec alt" aria-labelledby="p1">
+    <div class="wrap center">
+      <span class="badge grad rv">Стажировка · 06/2026 — 07/2026</span>
+      <h2 id="p1" class="rv">Документы для регистрации бизнеса. За минуты.</h2>
+      <p class="lede rv">Бесплатный генератор пакета документов для регистрации ИП, ООО и ЧУП в Беларуси: заполняешь интерактивные формы и получаешь готовый комплект.</p>
+      <div class="meta rv"><span>Роль <b>Full Stack разработчик</b></span></div>
+    </div>
+    <div class="wide">
+      <div class="device" data-rise>
+        <div class="window">
+          <div class="chrome"><i></i><i></i><i></i><span class="url">bitoffice.by</span></div>
+          <div class="ph" data-src="img/p1-main.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Главная: регистрация бизнеса</b><code>img/p1-main.jpg</code></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="rail-ctrl"><button type="button" data-dir="-1" aria-label="Назад">‹</button><button type="button" data-dir="1" aria-label="Вперёд">›</button></div>
+    <div class="rail">
+      <figure><div class="ph" data-src="img/p1-2.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Многошаговая форма</b><code>img/p1-2.jpg</code></div></div><figcaption>Многошаговое оформление: юридический адрес, руководство, учредители, вид деятельности.</figcaption></figure>
+      <figure><div class="ph" data-src="img/p1-3.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Контакты</b><code>img/p1-3.jpg</code></div></div><figcaption>Адаптивные страницы по макетам Figma.</figcaption></figure>
+    </div>
+    <div class="wrap">
+      <div class="feat">
+        <div class="tile rv"><span class="ico">🔍</span><h4>Реверс-инжиниринг GWT-RPC</h4><p>Разобрал недокументированный протокол egr.gov.by: интеграция с типизированными ошибками и автоопределением серверных методов.</p></div>
+        <div class="tile rv" style="--i:1"><span class="ico">🧩</span><h4>Архитектура на SvelteKit</h4><p>Компоненты, стейт-менеджмент и роутинг между многошаговыми формами с валидацией на клиенте.</p></div>
+        <div class="tile rv" style="--i:2"><span class="ico">⚡️</span><h4>Быстрый интерфейс</h4><p>Убрал лишние перерендеры, добавил ленивую загрузку; адаптивная вёрстка по макетам Figma.</p></div>
+      </div>
+      <div class="stack-row rv"><span class="chip">SvelteKit</span><span class="chip">Svelte 5</span><span class="chip">TypeScript</span><span class="chip">MongoDB</span><span class="chip">GWT-RPC</span><span class="chip">REST API</span><span class="chip">Figma</span></div>
+      <details class="all rv"><summary><span class="pl">＋</span> Все задачи</summary><ul>
+        <li>Frontend-архитектура приложения на SvelteKit: структура компонентов, стейт-менеджмент, роутинг между формами</li>
+        <li>Многошаговые формы с клиентской валидацией и логикой полей под тип регистрации (ИП / ООО / ЧУП)</li>
+        <li>Реверс-инжиниринг недокументированного GWT-RPC протокола egr.gov.by и интеграция для автогенерации документов</li>
+        <li>Адаптивные кроссбраузерные интерфейсы по макетам Figma</li>
+        <li>Health-check и диагностический экран для отслеживания сбоев интеграции с внешним API</li>
+        <li>Оптимизация производительности: лишние перерендеры, ленивая загрузка</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <!-- ================= PROJECT 02 (dark) ================= -->
+  <section class="project dark" aria-labelledby="p2">
+    <div class="wrap center">
+      <span class="badge rv" style="color:#ff9f0a">В продакшене · 09/2025 — 05/2026</span>
+      <h2 id="p2" class="rv">Заявки, согласования, история. В одной системе.</h2>
+      <p class="lede rv">SaaS-платформа документооборота, внедрённая на факультете компьютерного проектирования БГУИР. Сотрудники создают заявки, руководители согласуют, администраторы видят нагрузку и дедлайны.</p>
+      <div class="meta rv"><span>Роль <b>Backend разработчик</b></span><span>Ссылка <a href="https://fcadbot.site" target="_blank" rel="noopener">fcadbot.site ↗</a></span></div>
+    </div>
+    <div class="wide">
+      <div class="device" data-rise>
+        <div class="window">
+          <div class="chrome"><i></i><i></i><i></i><span class="url">Telegram Mini App · FCAD</span></div>
+          <div class="ph" data-src="img/p2-main.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Главная: статистика и быстрые действия</b><code>img/p2-main.jpg</code></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="rail-ctrl"><button type="button" data-dir="-1" aria-label="Назад">‹</button><button type="button" data-dir="1" aria-label="Вперёд">›</button></div>
+    <div class="rail">
+      <figure><div class="ph" data-src="img/p2-2.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Заявки</b><code>img/p2-2.jpg</code></div></div><figcaption>Заявки по статусам: одобрить или отклонить в один тап.</figcaption></figure>
+      <figure><div class="ph" data-src="img/p2-3.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Освобождения</b><code>img/p2-3.jpg</code></div></div><figcaption>Освобождения: календарь недели и выбор студентов.</figcaption></figure>
+    </div>
+    <div class="wrap">
+      <div class="feat">
+        <div class="tile rv"><span class="ico">🛡️</span><h4>RBAC на три роли</h4><p>Сотрудники, менеджеры, администраторы — права на уровне действий и отдельных заявок.</p></div>
+        <div class="tile rv" style="--i:1"><span class="ico">🔀</span><h4>Движок документооборота</h4><p>Маршрутизация, многоступенчатое согласование, архив. Новые типы заявок без правок core-логики.</p></div>
+        <div class="tile rv" style="--i:2"><span class="ico">📨</span><h4>−40% время реакции</h4><p>Telegram Bot API сообщает о смене статусов и новых задачах сразу.</p></div>
+      </div>
+      <div class="stack-row rv"><span class="chip">TypeScript</span><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">React</span><span class="chip">PostgreSQL</span><span class="chip">Prisma</span><span class="chip">Telegram Bot API</span><span class="chip">Docker</span></div>
+      <details class="all rv"><summary><span class="pl">＋</span> Все задачи</summary><ul>
+        <li>Ролевая модель доступа (RBAC) для трёх групп пользователей с детальной настройкой прав</li>
+        <li>Движок документооборота: маршрутизация, многоступенчатое согласование, отклонение и архивирование заявок</li>
+        <li>Схема БД и слой доступа к данным на Prisma + PostgreSQL, аудит изменений и полный журнал решений</li>
+        <li>Интеграция с Telegram Bot API: уведомления в реальном времени, время реакции сотрудников −40%</li>
+        <li>Docker-окружение для разработки и тестовых развёртываний, идентичные dev/test</li>
+        <li>Сквозное тестирование, исправление дефектов, вывод в продакшен</li>
+        <li>Сопровождение в проде: инциденты, доработки по запросам пользователей</li>
+        <li>Сбор обратной связи от пилотных пользователей и итеративная доработка бизнес-логики</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <!-- ================= PROJECT 03 ================= -->
+  <section class="project" aria-labelledby="p3">
+    <div class="wrap center">
+      <span class="badge rv" style="color:#d1418a">Pet-проект · 11/2024 — 07/2025</span>
+      <h2 id="p3" class="rv">Ателье, где каждый заказ под контролем.</h2>
+      <p class="lede rv">Система управления индивидуальными заказами для дизайнерского ателье: каталог изделий, статусы заказов и общение клиентов с сотрудниками.</p>
+      <div class="meta rv"><span>Роль <b>Full Stack разработчик</b></span></div>
+    </div>
+    <div class="wide">
+      <div class="device" data-rise>
+        <div class="window">
+          <div class="chrome"><i></i><i></i><i></i><span class="url">Étourneau Noir · localhost</span></div>
+          <div class="ph" data-src="img/p3-main.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Главная коллекции</b><code>img/p3-main.jpg</code></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="rail-ctrl"><button type="button" data-dir="-1" aria-label="Назад">‹</button><button type="button" data-dir="1" aria-label="Вперёд">›</button></div>
+    <div class="rail">
+      <figure><div class="ph" data-src="img/p3-2.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Карточка изделия</b><code>img/p3-2.jpg</code></div></div><figcaption>Карточка изделия из каталога.</figcaption></figure>
+      <figure><div class="ph" data-src="img/p3-3.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Мерки</b><code>img/p3-3.jpg</code></div></div><figcaption>Мерки клиента для индивидуального пошива.</figcaption></figure>
+      <figure><div class="ph" data-src="img/p3-4.jpg"><div class="in"><svg><use href="#i-img"/></svg><b>Мои заказы</b><code>img/p3-4.jpg</code></div></div><figcaption>История заказов со статусами.</figcaption></figure>
+    </div>
+    <div class="wrap">
+      <div class="feat">
+        <div class="tile rv"><span class="ico">🔐</span><h4>Spring Security + RBAC</h4><p>REST backend на Spring Boot с ролями клиента, сотрудника и администратора.</p></div>
+        <div class="tile rv" style="--i:1"><span class="ico">🗄️</span><h4>Надёжная схема данных</h4><p>Заказы, товары, клиенты, платежи — с constraints, индексами и миграциями Flyway.</p></div>
+        <div class="tile rv" style="--i:2"><span class="ico">✉️</span><h4>Асинхронные уведомления</h4><p>JavaMail сообщает клиенту о создании, обработке и готовности заказа.</p></div>
+      </div>
+      <div class="stack-row rv"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">Spring Data JPA</span><span class="chip">PostgreSQL</span><span class="chip">Flyway</span><span class="chip">Docker Compose</span><span class="chip">JavaScript</span></div>
+      <details class="all rv"><summary><span class="pl">＋</span> Все задачи</summary><ul>
+        <li>RESTful backend на Spring Boot, Spring Security с ролевой моделью для клиентов, сотрудников и администраторов</li>
+        <li>Нормализованная схема PostgreSQL с constraints и индексами для целостности данных</li>
+        <li>Сложные SQL-запросы и версионированные миграции для отчётности, фильтрации и поиска</li>
+        <li>Docker Compose: backend, БД и вспомогательные сервисы в мультисервисной среде</li>
+        <li>Конфигурация dev/test через Spring-профили и переменные среды</li>
+        <li>Асинхронные email-уведомления о статусе заказа через JavaMail</li>
+        <li>Отладка и рефакторинг по мере роста бизнес-логики</li>
+        <li>Поддержка frontend-части (JavaScript, HTML/CSS)</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <!-- ================= PROJECT 04 ================= -->
+  <section class="project alt sec" aria-labelledby="p4">
+    <div class="wrap center">
+      <span class="badge rv" style="color:#30a46c">Pet-проект · 02/2024 — 09/2024</span>
+      <h2 id="p4" class="rv">Двойных бронирований не бывает. Совсем.</h2>
+      <p class="lede rv">REST API для бронирования переговорных и рабочих мест с ролями Guest, Member, Corporate Admin и System Admin. Конфликты исключены на уровне базы данных.</p>
+      <div class="meta rv"><span>Роль <b>Backend разработчик</b></span><span>Код <a href="https://github.com/wolllipp/coworks_project" target="_blank" rel="noopener">coworks_project ↗</a></span></div>
+    </div>
+    <div class="wide">
+      <div class="device" data-rise>
+        <div class="window code-win">
+          <div class="chrome"><i></i><i></i><i></i><span class="url">V5__create_bookings_table.sql</span></div>
+<pre class="code"><code><span class="kw">CREATE EXTENSION IF NOT EXISTS</span> btree_gist;
+
+<span class="kw">CREATE TABLE</span> bookings (
+    book_id     <span class="ty">SERIAL PRIMARY KEY</span>,
+    room_id     <span class="ty">INT</span> <span class="kw">REFERENCES</span> rooms_desks(room_id),
+    user_id     <span class="ty">INT</span> <span class="kw">REFERENCES</span> users(user_id),
+    date        <span class="ty">DATE NOT NULL</span>,
+    start_time  <span class="ty">TIME NOT NULL</span>,
+    end_time    <span class="ty">TIME NOT NULL</span>,
+    book_status <span class="ty">VARCHAR</span>(20) <span class="ty">NOT NULL DEFAULT</span> <span class="st">'PENDING'</span>,
+<span class="mark">    <span class="kw">EXCLUDE USING gist</span> (
+        room_id <span class="kw">WITH</span> =,
+        tsrange(date + start_time, date + end_time) <span class="kw">WITH</span> &amp;&amp;
+    ) <span class="kw">WHERE</span> (book_status &lt;&gt; <span class="st">'CANCELLED'</span>),</span>
+    <span class="kw">CHECK</span> (start_time &lt; end_time)
+);</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="feat">
+        <div class="tile rv"><span class="ico">🧱</span><h4>EXCLUDE USING gist</h4><p>Пересечения бронирований невозможны на уровне PostgreSQL — race condition исключён даже при конкурентных запросах.</p></div>
+        <div class="tile rv" style="--i:1"><span class="ico">🚀</span><h4>Redis-кэш</h4><p>Кэширование горячих данных и рейтинг популярных мест снижают нагрузку на базу.</p></div>
+        <div class="tile rv" style="--i:2"><span class="ico">🔑</span><h4>JWT и Spring Security</h4><p>Кастомный JWT-фильтр, ролевая модель и глобальная обработка исключений.</p></div>
+      </div>
+      <div class="stack-row rv"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">JWT</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Flyway</span><span class="chip">JUnit 5</span><span class="chip">Mockito</span></div>
+      <details class="all rv"><summary><span class="pl">＋</span> Все задачи</summary><ul>
+        <li>Предотвращение пересечений бронирований через EXCLUDE USING gist (btree_gist) — без race condition</li>
+        <li>Redis для кэширования и выделения самых популярных мест</li>
+        <li>REST API: аутентификация, управление комнатами, создание и просмотр бронирований</li>
+        <li>JWT-аутентификация и авторизация через Spring Security и кастомный фильтр</li>
+        <li>Схема PostgreSQL с версионированными миграциями Flyway</li>
+        <li>Глобальная обработка исключений (@RestControllerAdvice) и корректные HTTP-статусы</li>
+        <li>Unit-тесты бизнес-логики (JUnit 5, Mockito)</li>
+        <li>CORS для отдельного React-фронтенда</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2 class="rv">Давайте<br><span class="grad">поработаем вместе.</span></h2>
+      <p class="rv">Рассматриваю Backend и Full Stack позиции. Быстрее всего отвечаю в Telegram.</p>
+      <div class="ctas rv">
+        <a class="pill" href="https://t.me/wolllip" target="_blank" rel="noopener">t.me/wolllip</a>
+        <a class="pill ghost" href="mailto:wolllip09@gmail.com">wolllip09@gmail.com</a>
+        <a class="pill ghost" href="https://github.com/wolllipp" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-  <span>&copy; 2026 Ivan Skworetz</span>
-  <span>Minsk, Belarus</span>
+  <div class="wrap"><span>© 2026 Иван Скворец</span><span>Минск, Беларусь</span></div>
 </footer>
 
 <script>
-// Letter-by-letter hero animation is CSS-only via @keyframes charReveal
+document.body.classList.remove('no-js');
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Intersection Observer for reveal animations
-const observerOptions = {
-  threshold: 0.15,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-
-      // Animate skill list items with stagger
-      if (entry.target.closest('.skill-group')) {
-        const items = entry.target.querySelectorAll('li');
-        items.forEach((li, i) => {
-          setTimeout(() => li.classList.add('visible'), i * 80);
-        });
-      }
-
-      // Animate words inside reveal-text with stagger
-      const words = entry.target.querySelectorAll('.word');
-      if (words.length) {
-        words.forEach((word, i) => {
-          setTimeout(() => {
-            word.style.transitionDelay = `${i * 0.06}s`;
-            word.classList.add('visible');
-          }, 100);
-        });
-      }
-
-      // Line reveal
-      if (entry.target.classList.contains('line-reveal')) {
-        entry.target.classList.add('visible');
-      }
-
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-// Observe all reveal elements
-document.querySelectorAll('.reveal-text, .skill-group li, .line-reveal').forEach(el => {
-  observer.observe(el);
+/* placeholders → real images as soon as the file exists in img/ */
+document.querySelectorAll('.ph[data-src]').forEach(function (ph) {
+  var img = new Image();
+  img.onload = function () {
+    img.alt = ph.querySelector('b').textContent;
+    if (ph.closest('.device')) ph.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+    ph.appendChild(img); ph.classList.add('loaded');
+  };
+  img.src = ph.dataset.src;
 });
 
-// Mobile nav toggle
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-const navOverlay = document.getElementById('navOverlay');
-
-function closeMenu() {
-  navLinks.classList.remove('open');
-  navOverlay.classList.remove('open');
-}
-
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-  navOverlay.classList.toggle('open');
-});
-
-navOverlay.addEventListener('click', closeMenu);
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', closeMenu);
-});
-
-// Fade out hero on scroll
-let ticking = false;
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      const hero = document.querySelector('.hero-title');
-      const heroSubtitle = document.querySelector('.hero-subtitle');
-      const heroLinks = document.querySelector('.hero-links');
-      if (hero && scrollY < window.innerHeight) {
-        const progress = scrollY / window.innerHeight;
-        hero.style.opacity = 1 - progress * 1.5;
-        if (heroSubtitle) heroSubtitle.style.opacity = 1 - progress * 1.5;
-        if (heroLinks) heroLinks.style.opacity = 1 - progress * 1.5;
-      }
-      ticking = false;
+/* statement: split into words, light them up with scroll */
+(function () {
+  var p = document.getElementById('statement'), html = '';
+  p.childNodes.forEach(function (n) {
+    var hl = n.nodeName === 'EM';
+    n.textContent.split(/(\s+)/).forEach(function (t) {
+      html += /^\s+$/.test(t) || !t ? t : '<span class="w' + (hl ? ' hl' : '') + '">' + t + '</span>';
     });
-    ticking = true;
-  }
+  });
+  p.innerHTML = html;
+})();
+var words = document.querySelectorAll('.statement .w');
+
+/* scroll reveal */
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { rootMargin: '0px 0px -10% 0px' });
+document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+/* count-up numbers (ease-out, starts when visible) */
+var cio = new IntersectionObserver(function (es) {
+  es.forEach(function (e) {
+    if (!e.isIntersecting) return;
+    cio.unobserve(e.target);
+    var el = e.target, to = parseFloat(el.dataset.count), dec = (el.dataset.count.split('.')[1] || '').length;
+    var pre = el.dataset.prefix || '', suf = el.dataset.suffix || '', t0 = performance.now(), dur = 1400;
+    function f(now) {
+      var k = Math.min(1, (now - t0) / dur), v = to * (1 - Math.pow(1 - k, 4));
+      el.textContent = pre + v.toFixed(dec) + suf;
+      if (k < 1) requestAnimationFrame(f);
+    }
+    if (reduce) el.textContent = pre + to.toFixed(dec) + suf; else requestAnimationFrame(f);
+  });
+}, { threshold: .5 });
+document.querySelectorAll('[data-count]').forEach(function (el) { cio.observe(el); });
+
+/* scroll-linked motion: one rAF per frame, transform/opacity only */
+var nav = document.getElementById('nav'), portrait = document.getElementById('portrait'),
+    pimg = portrait.querySelector('img'), floats = document.querySelectorAll('.float'),
+    devices = document.querySelectorAll('[data-rise]'), ticking = false;
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function frame() {
+  ticking = false;
+  var vh = innerHeight, y = scrollY;
+  nav.classList.toggle('scrolled', y > 8);
+  if (reduce) { words.forEach(function (w) { w.classList.add('on'); }); return; }
+
+  // portrait grows from .9 to 1 as it comes into view, image drifts (parallax)
+  var r = portrait.getBoundingClientRect();
+  var k = clamp(1 - (r.top - vh * .15) / (vh * .7), 0, 1);
+  portrait.style.setProperty('--s', (.9 + .1 * k).toFixed(4));
+  pimg.style.setProperty('--py', clamp(-r.top * .06, -r.height * .045, r.height * .045).toFixed(1) + 'px');
+  floats.forEach(function (f) { f.style.setProperty('--fy', (-r.top * parseFloat(f.dataset.depth)).toFixed(1) + 'px'); });
+
+  // statement words
+  var st = document.getElementById('statement').getBoundingClientRect();
+  var prog = clamp((vh * .8 - st.top) / (st.height + vh * .25), 0, 1), n = Math.round(prog * words.length);
+  words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
+
+  // device mockups rise and settle
+  devices.forEach(function (d) {
+    var b = d.getBoundingClientRect(), q = clamp((vh - b.top) / (vh * .75), 0, 1);
+    var e = 1 - Math.pow(1 - q, 3);
+    d.style.setProperty('--ry', (60 * (1 - e)).toFixed(1) + 'px');
+    d.style.setProperty('--rs', (.92 + .08 * e).toFixed(4));
+    d.style.setProperty('--ro', (.4 + .6 * e).toFixed(3));
+  });
+}
+addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+addEventListener('resize', frame);
+frame();
+
+/* gallery rails: arrow buttons + state */
+document.querySelectorAll('.rail-ctrl').forEach(function (c) {
+  var rail = c.nextElementSibling, b = c.querySelectorAll('button');
+  function upd() { var r = rail.getBoundingClientRect(), last = rail.lastElementChild.getBoundingClientRect(); c.hidden = rail.scrollLeft < 4 && last.right <= r.right + 1; b[0].disabled = rail.scrollLeft < 4; b[1].disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 4; }
+  b.forEach(function (btn) { btn.addEventListener('click', function () {
+    var step = rail.firstElementChild.getBoundingClientRect().width + 20;
+    rail.scrollBy({ left: step * btn.dataset.dir, behavior: reduce ? 'auto' : 'smooth' });
+  }); });
+  rail.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+});
+
+addEventListener('beforeprint', function () {
+  document.querySelectorAll('details.all').forEach(function (d) { d.open = true; });
+  document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
 });
 </script>
-
 </body>
 </html>
